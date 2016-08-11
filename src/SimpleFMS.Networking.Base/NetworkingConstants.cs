@@ -15,6 +15,8 @@
         {
             public const string DriverStationTableName = "DriverStation";
             public const string DriverStationReportKey = "DriverStationReports";
+            public const string DriverStationRequiresAllConnectedOrBypassed =
+                "DriverStationRequiresAllConnectedOrBypassed";
             public const string DriverStationSetConfigurationRpcKey = "RpcDriverStationSetConfiguration";
             public const int DriverStationSetConfigurationRpcVersion = 1;
             public const string DriverStationUpdateBypassRpcKey = "RpcDriverStationUpdateBypass";

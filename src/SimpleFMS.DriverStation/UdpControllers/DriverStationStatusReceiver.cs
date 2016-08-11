@@ -26,21 +26,23 @@ namespace SimpleFMS.DriverStation.UdpControllers
 
         public void Restart()
         {
-            m_tokenSource.Cancel();
+            m_tokenSource?.Cancel();
             m_readTask?.Wait();
 
             ((IDisposable)m_client)?.Dispose();
 
             m_client = new UdpClient(m_endPoint);
 
-            m_readTask = Task.Factory.StartNew(() =>
+            m_tokenSource = new CancellationTokenSource();
+
+            m_readTask = Task.Run(() =>
             {
                 while (!m_tokenSource.IsCancellationRequested)
                 {
                     try
                     {
                         Task<UdpReceiveResult> task = m_client.ReceiveAsync();
-                        task.Wait(m_tokenSource.Token);
+                        task.Wait();
                         if (task.IsCompleted)
                         {
                             lock (m_lockObject)
@@ -67,7 +69,7 @@ namespace SimpleFMS.DriverStation.UdpControllers
                     }
                 }
 
-            }, m_tokenSource.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            }, m_tokenSource.Token);
 
             m_readTask = m_client.ReceiveAsync();
         }

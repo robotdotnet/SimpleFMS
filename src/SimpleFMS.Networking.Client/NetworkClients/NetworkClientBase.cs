@@ -21,10 +21,11 @@ namespace SimpleFMS.Networking.Client.NetworkClients
             NetworkTable = root.GetSubTable(tableName);
         }
 
-        protected void AddTableListener(string key, Action<ITable, string, Value, NotifyFlags> listener)
+        protected void AddTableListener(string key, Action<ITable, string, Value, NotifyFlags> listener, 
+            NotifyFlags flags = NotifyFlags.NotifyImmediate)
         {
             NetworkTableListeners.Add(listener);
-            NetworkTable.AddTableListener(key, listener, true);
+            NetworkTable.AddTableListenerEx(key, listener, flags);
         }
 
         public virtual void Dispose()

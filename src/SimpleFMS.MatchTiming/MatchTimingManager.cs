@@ -187,16 +187,21 @@ namespace SimpleFMS.MatchTiming
                 return m_matchState;
         }
 
-        public void StartMatch()
+        public bool StartMatch()
         {
             lock (m_lockObject)
             {
-                if (m_matchState != MatchState.Stopped) return;
+                if (m_matchState != MatchState.Stopped) return false;
 
-                m_periodEndTime = DateTime.UtcNow + AutonomousTime;
-                m_fullMatch = true;
-                m_matchState = MatchState.Autonomous;
-                m_driverStationManager.StartMatchPertiod(true);
+                bool started = m_driverStationManager.StartMatchPertiod(true);
+                if (started)
+                {
+
+                    m_matchState = MatchState.Autonomous;
+                    m_periodEndTime = DateTime.UtcNow;
+                    m_fullMatch = true;
+                }
+                return started;
             }
         }
 
@@ -206,29 +211,38 @@ namespace SimpleFMS.MatchTiming
             OnMatchStop();
         }
 
-        public void StartAutonomous()
+        public bool StartAutonomous()
         {
             lock (m_lockObject)
             {
-                if (m_matchState != MatchState.Stopped) return;
+                if (m_matchState != MatchState.Stopped) return false;
 
-                m_matchState = MatchState.Autonomous;
-                m_periodEndTime = DateTime.UtcNow + AutonomousTime;
-                m_fullMatch = false;
-                m_driverStationManager.StartMatchPertiod(true);
+                bool started = m_driverStationManager.StartMatchPertiod(true);
+                if (started)
+                {
+
+                    m_matchState = MatchState.Autonomous;
+                    m_periodEndTime = DateTime.UtcNow;
+                    m_fullMatch = false;
+                }
+                return started;
             }
         }
 
-        public void StartTeleop()
+        public bool StartTeleop()
         {
             lock (m_lockObject)
             {
-                if (m_matchState != MatchState.Stopped) return;
-
-                m_matchState = MatchState.Teleoperated;
-                m_periodEndTime = DateTime.UtcNow + TeleoperatedTime;
-                m_fullMatch = false;
-                m_driverStationManager.StartMatchPertiod(false);
+                if (m_matchState != MatchState.Stopped) return false;
+                bool started = m_driverStationManager.StartMatchPertiod(false);
+                if (started)
+                {
+                    
+                    m_matchState = MatchState.Teleoperated;
+                    m_periodEndTime = DateTime.UtcNow;
+                    m_fullMatch = false;
+                }
+                return started;
             }
         }
     }

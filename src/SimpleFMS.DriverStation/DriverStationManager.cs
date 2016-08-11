@@ -12,6 +12,8 @@ namespace SimpleFMS.DriverStation
 {
     public class DriverStationManager : IDriverStationManager
     {
+        public bool RequiresAllRobotsConnectedOrBypassed { get; set; }
+
         public IReadOnlyList<IDriverStationConfiguration> GetDefaultConfiguration()
         {
             List<IDriverStationConfiguration> configs =
@@ -197,13 +199,31 @@ namespace SimpleFMS.DriverStation
             }
         }
 
-        public void StartMatchPertiod(bool auto)
+        public bool StartMatchPertiod(bool auto)
         {
             lock (m_lockObject)
             {
+                if (RequiresAllRobotsConnectedOrBypassed)
+                {
+                    // Read all robot states
+                    var stations = m_driverStationsByAllianceStation;
+                    bool hasNotReadyDs = false;
+                    foreach (var driverStation in stations.Values)
+                    {
+                        if (driverStation.IsBypassed)
+                            continue;
+                        if (driverStation.DriverStationConnected && driverStation.IsRoboRioConnected)
+                            continue;
+                        hasNotReadyDs = true;
+                    }
+                    if (hasNotReadyDs)
+                        return false;
+                }
+
                 GlobalDriverStationControlData.IsAutonomous = auto;
                 GlobalDriverStationControlData.IsEnabled = true;
                 UpdateDriverStations();
+                return true;
             }
         }
 

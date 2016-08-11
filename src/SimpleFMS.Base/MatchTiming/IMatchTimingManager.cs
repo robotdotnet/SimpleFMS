@@ -31,7 +31,8 @@ namespace SimpleFMS.Base.MatchTiming
         /// <summary>
         /// Starts a match
         /// </summary>
-        void StartMatch();
+        /// <returns>True if the match was started correctly</returns>
+        bool StartMatch();
         /// <summary>
         /// Stops any current running period
         /// </summary>
@@ -39,11 +40,13 @@ namespace SimpleFMS.Base.MatchTiming
         /// <summary>
         /// Starts autonomous mode only
         /// </summary>
-        void StartAutonomous();
+        /// /// <returns>True if the mode was started correctly</returns>
+        bool StartAutonomous();
         /// <summary>
         /// Starts teleoperated mode only
         /// </summary>
-        void StartTeleop();
+        /// /// <returns>True if the mode was started correctly</returns>
+        bool StartTeleop();
 
         /// <summary>
         /// Sets the times the match should run for

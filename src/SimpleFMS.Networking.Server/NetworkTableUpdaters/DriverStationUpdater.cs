@@ -36,6 +36,13 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             m_rpc.CreateRpc(DriverStationGlobalEStopRpcKey,
                 new RpcDefinition(DriverStationGlobalEStopVersion, DriverStationGlobalEStopRpcKey),
                 DriverStationGlobalEStopRpcCallback);
+
+            AddTableListener(DriverStationRequiresAllConnectedOrBypassed, (table, key, value, flags) =>
+            {
+                if (key != DriverStationRequiresAllConnectedOrBypassed) return;
+                if (value == null || !value.IsBoolean()) return;
+                m_driverStationManager.RequiresAllRobotsConnectedOrBypassed = value.GetBoolean();
+            }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyLocal); 
         }
 
         private byte[] DriverStationUpdateBypassRpcCallback(string name, byte[] bytes)

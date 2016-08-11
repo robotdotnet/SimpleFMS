@@ -19,8 +19,7 @@ namespace SimpleFMS.DriverStation.UdpControllers
             try
             {
                 byte[] packet = data.PackData();
-                // TODO: Send async back to the manager.
-                m_client.SendAsync(packet, packet.Length, ipEp).Wait();
+                m_client.Send(packet, packet.Length, ipEp);
             }
             catch (SocketException)
             {

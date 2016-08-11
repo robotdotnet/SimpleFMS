@@ -20,6 +20,8 @@ namespace SimpleFMS.Base.DriverStation
         /// </summary>
         IReadOnlyDictionary<AllianceStation, IDriverStationReport> DriverStations { get; }
 
+        bool RequiresAllRobotsConnectedOrBypassed { get; set; }
+
         /// <summary>
         /// Initializes a new match to be played
         /// </summary>
@@ -34,7 +36,8 @@ namespace SimpleFMS.Base.DriverStation
         /// Starts a match period
         /// </summary>
         /// <param name="auto">True if autonomous, false if teleop</param>
-        void StartMatchPertiod(bool auto);
+        /// <returns>True if the period was started successfully</returns>
+        bool StartMatchPertiod(bool auto);
 
         /// <summary>
         /// Stops a match period

@@ -38,8 +38,10 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
         private byte[] StartMatchCallback(string name, byte[] bytes)
         {
             var good = bytes.UnpackStartMatch();
-            if (good) m_matchTimingManager.StartMatch();
-            return PackStartMatchResponse(good);
+            bool started = false;
+            if (good)
+                started = m_matchTimingManager.StartMatch();
+            return PackStartMatchResponse(started);
         }
 
         private byte[] StopPeriodCallback(string name, byte[] bytes)
@@ -52,15 +54,19 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
         private byte[] StartAutonomousCallback(string name, byte[] bytes)
         {
             var good = bytes.UnpackStartAutonomous();
-            if (good) m_matchTimingManager.StartAutonomous();
-            return PackStartAutonomousResponse(good);
+            bool started = false;
+            if (good)
+                started = m_matchTimingManager.StartAutonomous();
+            return PackStartAutonomousResponse(started);
         }
 
         private byte[] StartTeleoperatedCallback(string name, byte[] bytes)
         {
             var good = bytes.UnpackStartTeleoperated();
-            if (good) m_matchTimingManager.StartTeleop();
-            return PackStartTeleoperatedResponse(good);
+            bool started = false;
+            if (good)
+                started = m_matchTimingManager.StartTeleop();
+            return PackStartTeleoperatedResponse(started);
         }
 
         private byte[] SetMatchPeriodTimeCallback(string name, byte[] bytes)
