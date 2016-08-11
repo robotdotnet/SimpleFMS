@@ -1,7 +1,10 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
+    "SimpleFMS.Base": {
+      "target": "project"
+    }
   },
 
   "frameworks": {

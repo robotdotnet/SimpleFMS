@@ -2,12 +2,18 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "SimpleFMS.Base": {
+      "target": "project"
+    },
+    "SimpleFMS.Networking.Base": {
+      "target": "project"
+    }
   },
 
   "frameworks": {
     "net451": {},
     "netstandard1.3": {
-      "buildOptions": { "define": [ "NETSTANDARD" ] },
+      "buildOptions": {"define": ["NETSTANDARD"]},
       "dependencies": { "NETStandard.Library": "1.6.0" }
     }
   }
