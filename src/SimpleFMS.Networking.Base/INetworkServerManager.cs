@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleFMS.Base.Networking
+namespace SimpleFMS.Networking.Base
 {
     public interface INetworkServerManager : IDisposable
     {

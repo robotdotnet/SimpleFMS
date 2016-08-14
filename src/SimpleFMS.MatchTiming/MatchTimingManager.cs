@@ -198,7 +198,7 @@ namespace SimpleFMS.MatchTiming
                 {
 
                     m_matchState = MatchState.Autonomous;
-                    m_periodEndTime = DateTime.UtcNow;
+                    m_periodEndTime = DateTime.UtcNow + m_autonomousTime;
                     m_fullMatch = true;
                 }
                 return started;
@@ -222,7 +222,7 @@ namespace SimpleFMS.MatchTiming
                 {
 
                     m_matchState = MatchState.Autonomous;
-                    m_periodEndTime = DateTime.UtcNow;
+                    m_periodEndTime = DateTime.UtcNow + m_autonomousTime;
                     m_fullMatch = false;
                 }
                 return started;
@@ -239,7 +239,7 @@ namespace SimpleFMS.MatchTiming
                 {
                     
                     m_matchState = MatchState.Teleoperated;
-                    m_periodEndTime = DateTime.UtcNow;
+                    m_periodEndTime = DateTime.UtcNow + m_teleoperatedTime;
                     m_fullMatch = false;
                 }
                 return started;

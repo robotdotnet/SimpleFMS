@@ -3,7 +3,8 @@
 
   "dependencies": {
     "SimpleFMS.Base": {
-      "target": "project"
+      "target": "project",
+      "type": "build"
     }
   },
 

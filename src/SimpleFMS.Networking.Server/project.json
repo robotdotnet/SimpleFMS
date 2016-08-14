@@ -3,10 +3,12 @@
 
   "dependencies": {
     "SimpleFMS.Base": {
-      "target": "project"
+      "target": "project",
+      "type": "build"
     },
     "SimpleFMS.Networking.Base": {
-      "target": "project"
+      "target": "project",
+      "type": "build"
     }
   },
 

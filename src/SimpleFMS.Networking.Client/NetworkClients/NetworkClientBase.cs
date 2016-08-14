@@ -22,7 +22,7 @@ namespace SimpleFMS.Networking.Client.NetworkClients
         }
 
         protected void AddTableListener(string key, Action<ITable, string, Value, NotifyFlags> listener, 
-            NotifyFlags flags = NotifyFlags.NotifyImmediate)
+            NotifyFlags flags)
         {
             NetworkTableListeners.Add(listener);
             NetworkTable.AddTableListenerEx(key, listener, flags);

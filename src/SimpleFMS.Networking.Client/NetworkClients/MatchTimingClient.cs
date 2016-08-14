@@ -21,7 +21,8 @@ namespace SimpleFMS.Networking.Client.NetworkClients
         {
             m_rpc = manager.Rpc;
 
-            AddTableListener(MatchStatusReportKey, OnMatchTimeReportCallback);
+            var flags = NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew | NotifyFlags.NotifyUpdate;
+            AddTableListener(MatchStatusReportKey, OnMatchTimeReportCallback, flags); 
         }
 
         public event Action<IMatchStateReport> OnMatchTimeReportChanged;

@@ -22,7 +22,8 @@ namespace SimpleFMS.Networking.Client.NetworkClients
         {
             m_rpc = manager.Rpc;
 
-            AddTableListener(DriverStationReportKey, OnDriverStationReportCallback);
+            var flags = NotifyFlags.NotifyImmediate | NotifyFlags.NotifyNew | NotifyFlags.NotifyUpdate;
+            AddTableListener(DriverStationReportKey, OnDriverStationReportCallback, flags);
         }
 
         public event Action<IReadOnlyDictionary<AllianceStation, IDriverStationReport>> OnDriverStationReportsChanged;
