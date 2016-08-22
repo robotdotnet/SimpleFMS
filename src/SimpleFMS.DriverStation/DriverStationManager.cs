@@ -12,7 +12,7 @@ namespace SimpleFMS.DriverStation
 {
     public class DriverStationManager : IDriverStationManager
     {
-        public bool RequiresAllRobotsConnectedOrBypassed { get; set; }
+        public bool RequiresAllRobotsConnectedOrBypassed { get; set; } = true;
 
         public IReadOnlyList<IDriverStationConfiguration> GetDefaultConfiguration()
         {

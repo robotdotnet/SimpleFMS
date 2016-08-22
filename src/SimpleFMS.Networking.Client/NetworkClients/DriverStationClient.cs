@@ -9,6 +9,7 @@ using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.Enums;
 using SimpleFMS.Networking.Base;
 using SimpleFMS.Networking.Base.Extensions.DriverStation;
+using SimpleFMS.Base.Extensions;
 using static SimpleFMS.Networking.Base.NetworkingConstants.DriverStationConstants;
 
 namespace SimpleFMS.Networking.Client.NetworkClients
@@ -44,6 +45,19 @@ namespace SimpleFMS.Networking.Client.NetworkClients
             return value?.GetDriverStationReports();
         }
 
+        public bool RequiresAllRobotsConnectedOrBypassed()
+        {
+            return NetworkTable.GetBoolean(DriverStationRequiresAllConnectedOrBypassed, true);
+        }
+
+        public bool IsReadyToStartMatch()
+        {
+            if (!RequiresAllRobotsConnectedOrBypassed()) return true;
+            var reports = GetDriverStationReports();
+            if (reports == null) return false;
+            return reports.IsReadyToStartMatch();
+        }
+
         public override void Dispose()
         {
             OnDriverStationReportsChanged = null;
@@ -52,20 +66,18 @@ namespace SimpleFMS.Networking.Client.NetworkClients
 
         public async Task<bool> UpdateDriverStationEStop(AllianceStation station, bool eStopped, CancellationToken token)
         {
-            long callId = m_rpc.CallRpc(DriverStationUpdateBypassRpcKey,
-                station.PackDriverStationSetEStop(eStopped));
-
-            byte[] data = await m_rpc.GetRpcResultAsync(callId, token);
+            byte[] data =
+                await
+                    m_rpc.CallRpcWithResultAsync(DriverStationUpdateBypassRpcKey, token,
+                        station.PackDriverStationSetEStop(eStopped));
             if (data == null) return false;
             return data.UnpackDriverStationUpdateEStopResponse();
         }
 
         public async Task<bool> UpdateDriverStationBypass(AllianceStation station, bool bypass, CancellationToken token)
         {
-            long callId = m_rpc.CallRpc(DriverStationUpdateBypassRpcKey,
+            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationUpdateBypassRpcKey, token,
                 station.PackDriverStationSetBypass(bypass));
-
-            byte[] data = await m_rpc.GetRpcResultAsync(callId, token);
             if (data == null) return false;
             return data.UnpackDriverStationUpdateBypassResponse();
         }
@@ -74,19 +86,16 @@ namespace SimpleFMS.Networking.Client.NetworkClients
             IReadOnlyList<IDriverStationConfiguration> configuration, int matchNumber, MatchType matchType, 
             CancellationToken token)
         {
-            long callId = m_rpc.CallRpc(DriverStationSetConfigurationRpcKey,
+            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationSetConfigurationRpcKey,token,
                 configuration.PackDriverStationConfigurationData(matchNumber, matchType));
-
-            byte[] data = await m_rpc.GetRpcResultAsync(callId, token);
             if (data == null) return false;
             return data.UnpackDriverStationSetConfigurationResponse();
         }
 
         public async Task<bool> GlobalEStop(CancellationToken token)
         {
-            long callId = m_rpc.CallRpc(DriverStationGlobalEStopRpcKey,
+            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationGlobalEStopRpcKey, token,
                 DriverStationEStopExtensions.PackDriverStationGlobalEStop());
-            byte[] data = await m_rpc.GetRpcResultAsync(callId, token);
             if (data == null) return false;
             return data.UnpackDriverStationGlobalEStopResponse();
         }

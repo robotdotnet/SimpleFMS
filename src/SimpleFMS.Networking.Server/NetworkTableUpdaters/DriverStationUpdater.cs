@@ -95,6 +95,9 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             var driverStations = m_driverStationManager.DriverStations;
 
             NetworkTable.PutRaw(DriverStationReportKey, driverStations.PackDriverStationReportData());
+
+            NetworkTable.PutBoolean(DriverStationRequiresAllConnectedOrBypassed,
+                m_driverStationManager.RequiresAllRobotsConnectedOrBypassed);
         }
     }
 }

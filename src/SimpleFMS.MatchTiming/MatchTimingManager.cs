@@ -34,7 +34,7 @@ namespace SimpleFMS.MatchTiming
             }
         }
 
-        
+
         private TimeSpan TeleoperatedTime
         {
             get
@@ -145,6 +145,7 @@ namespace SimpleFMS.MatchTiming
                 }
                 else
                 {
+                    OnMatchTimerUpdate?.Invoke(remaining);
                     m_driverStationManager.SetRemainingMatchTime((int)remaining.TotalSeconds);
                 }
             }
@@ -189,11 +190,12 @@ namespace SimpleFMS.MatchTiming
 
         public bool StartMatch()
         {
+            bool started = false;
             lock (m_lockObject)
             {
                 if (m_matchState != MatchState.Stopped) return false;
 
-                bool started = m_driverStationManager.StartMatchPertiod(true);
+                started = m_driverStationManager.StartMatchPertiod(true);
                 if (started)
                 {
 
@@ -201,8 +203,8 @@ namespace SimpleFMS.MatchTiming
                     m_periodEndTime = DateTime.UtcNow + m_autonomousTime;
                     m_fullMatch = true;
                 }
-                return started;
             }
+            return started;
         }
 
         public void StopCurrentPeriod()
@@ -237,7 +239,7 @@ namespace SimpleFMS.MatchTiming
                 bool started = m_driverStationManager.StartMatchPertiod(false);
                 if (started)
                 {
-                    
+
                     m_matchState = MatchState.Teleoperated;
                     m_periodEndTime = DateTime.UtcNow + m_teleoperatedTime;
                     m_fullMatch = false;

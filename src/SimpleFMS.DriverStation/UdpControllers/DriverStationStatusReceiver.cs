@@ -74,30 +74,6 @@ namespace SimpleFMS.DriverStation.UdpControllers
             m_readTask = m_client.ReceiveAsync();
         }
 
-        /*
-        private static void OnReceive(IAsyncResult result)
-        {
-            DriverStationStatusReceiver rec = result.AsyncState as DriverStationStatusReceiver;
-            if (rec == null) return;
-            lock (rec.m_lockObject)
-            {
-                if (rec.m_client == null) return;
-                try
-                {
-                    byte[] data = rec.m_client.EndReceive(result, ref rec.m_endPoint);
-                    DriverStationStatusData parsedData = new DriverStationStatusData();
-                    parsedData.ParseData(data);
-                    rec.OnDriverStationReceive?.Invoke(parsedData);
-                    rec.m_client.BeginReceive(OnReceive, rec);
-                }
-                catch (ObjectDisposedException)
-                {
-                    // Ignore an Object Disposed Exception
-                }
-            }
-        }
-        */
-
         public void Dispose()
         {
             OnDriverStationReceive = null;

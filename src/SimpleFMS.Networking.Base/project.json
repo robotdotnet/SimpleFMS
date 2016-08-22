@@ -1,8 +1,8 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "dependencies": {
-    "FRC.NetworkTables": "2017.0.1-beta-0007",
+    "FRC.NetworkTables": "2017.0.1-beta-0028",
     "SimpleFMS.Base": {
       "target": "project",
       "type": "build"
