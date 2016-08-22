@@ -5,10 +5,9 @@ using NetworkTables;
 using NetworkTables.Independent;
 using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.MatchTiming;
-using SimpleFMS.Base.Networking;
 using SimpleFMS.Networking.Base;
 using SimpleFMS.Networking.Server.NetworkTableUpdaters;
-using static SimpleFMS.Base.Networking.NetworkingConstants;
+using static SimpleFMS.Networking.Base.NetworkingConstants;
 
 namespace SimpleFMS.Networking.Server
 {

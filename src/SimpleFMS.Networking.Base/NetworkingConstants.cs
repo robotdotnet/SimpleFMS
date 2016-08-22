@@ -1,4 +1,4 @@
-﻿namespace SimpleFMS.Base.Networking
+﻿namespace SimpleFMS.Networking.Base
 {
     public static class NetworkingConstants
     {

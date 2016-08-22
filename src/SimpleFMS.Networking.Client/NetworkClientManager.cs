@@ -4,7 +4,7 @@ using NetworkTables;
 using NetworkTables.Independent;
 using NetworkTables.Tables;
 using SimpleFMS.Networking.Base;
-using static SimpleFMS.Base.Networking.NetworkingConstants;
+using static SimpleFMS.Networking.Base.NetworkingConstants;
 
 namespace SimpleFMS.Networking.Client
 {

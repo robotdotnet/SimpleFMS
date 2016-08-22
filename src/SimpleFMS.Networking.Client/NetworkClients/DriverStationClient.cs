@@ -9,7 +9,7 @@ using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.Enums;
 using SimpleFMS.Networking.Base;
 using SimpleFMS.Networking.Base.Extensions.DriverStation;
-using static SimpleFMS.Base.Networking.NetworkingConstants.DriverStationConstants;
+using static SimpleFMS.Networking.Base.NetworkingConstants.DriverStationConstants;
 
 namespace SimpleFMS.Networking.Client.NetworkClients
 {

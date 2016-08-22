@@ -4,7 +4,7 @@ using NetworkTables.Tables;
 using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.Enums;
 using SimpleFMS.Networking.Base.Extensions.DriverStation;
-using static SimpleFMS.Base.Networking.NetworkingConstants.DriverStationConstants;
+using static SimpleFMS.Networking.Base.NetworkingConstants.DriverStationConstants;
 using static SimpleFMS.Networking.Base.Extensions.DriverStation.DriverStationConfigurationExtensions;
 using static SimpleFMS.Networking.Base.Extensions.DriverStation.DriverStationBypassExtensions;
 using static SimpleFMS.Networking.Base.Extensions.DriverStation.DriverStationEStopExtensions;

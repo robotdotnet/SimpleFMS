@@ -3,7 +3,7 @@ using NetworkTables.Independent;
 using NetworkTables.Tables;
 using SimpleFMS.Base.MatchTiming;
 using SimpleFMS.Networking.Base.Extensions.MatchTiming;
-using static SimpleFMS.Base.Networking.NetworkingConstants.MatchTimingConstants;
+using static SimpleFMS.Networking.Base.NetworkingConstants.MatchTimingConstants;
 using static SimpleFMS.Networking.Base.Extensions.MatchTiming.MatchTimingMatchStateExtensions;
 
 namespace SimpleFMS.Networking.Server.NetworkTableUpdaters

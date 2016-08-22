@@ -4,7 +4,6 @@ using System.IO;
 using NetworkTables.Wire;
 using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.Enums;
-using SimpleFMS.Base.Networking;
 
 namespace SimpleFMS.Networking.Base.Extensions.DriverStation
 {
