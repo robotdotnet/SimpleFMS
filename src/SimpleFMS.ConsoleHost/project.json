@@ -5,7 +5,7 @@
   },
 
   "dependencies": {
-    "FRC.NetworkTables": "2017.0.1-beta-0028",
+    "FRC.NetworkTables": "3.0.0-beta-0091",
     "Microsoft.NETCore.App": {
       "type": "platform",
       "version": "1.0.0"

@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "FRC.NetworkTables": "2017.0.1-beta-0028",
+    "FRC.NetworkTables": "3.0.0-beta-0091",
     "SimpleFMS.Base": {
       "target": "project",
       "type": "build"
@@ -10,10 +10,13 @@
   },
 
   "frameworks": {
-    "net451": {},
+    "net46": {},
     "netstandard1.3": {
       "buildOptions": { "define": [ "NETSTANDARD" ] },
-      "dependencies": { "NETStandard.Library": "1.6.0" }
+      "dependencies": {
+        "FRC.NetworkTables": "3.0.0-beta-0091",
+        "NETStandard.Library": "1.6.0"
+      }
     }
   }
 }

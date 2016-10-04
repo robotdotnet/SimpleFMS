@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NetworkTables.Wire;
 using SimpleFMS.Base.DriverStation;
 
@@ -15,7 +16,7 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
         // [0] Raw Data Type
         // [1] Count
         // Each report in order
-        public static byte[] PackDriverStationReportData(this IReadOnlyDictionary<AllianceStation,IDriverStationReport> reports)
+        public static IList<byte> PackDriverStationReportData(this IReadOnlyDictionary<AllianceStation,IDriverStationReport> reports)
         {
             if (reports.Count > 255) 
                 throw new ArgumentOutOfRangeException(nameof(reports), "Reports cannot be longer then 255 values");
@@ -77,9 +78,9 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
             return controlByte;
         }
 
-        public static IReadOnlyDictionary<AllianceStation, IDriverStationReport> GetDriverStationReports(this byte[] value)
+        public static IReadOnlyDictionary<AllianceStation, IDriverStationReport> GetDriverStationReports(this IList<byte> value)
         {
-            MemoryStream stream = new MemoryStream(value);
+            MemoryStream stream = new MemoryStream(value.ToArray());
             if (stream.Length < 2)
                 return null;
 

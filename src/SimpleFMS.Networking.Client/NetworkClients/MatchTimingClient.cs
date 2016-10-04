@@ -45,35 +45,35 @@ namespace SimpleFMS.Networking.Client.NetworkClients
 
         public async Task<bool> StartMatch(CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(StartMatchRpcKey, token, PackStartMatch());
+            var data = await m_rpc.CallRpcWithResultAsync(StartMatchRpcKey, token, PackStartMatch());
             if (data == null) return false;
             return data.UnpackStartMatchResponse();
         }
 
         public async Task<bool> StopPeriod(CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(StopPeriodRpcKey, token, PackStopPeriod());
+            var data = await m_rpc.CallRpcWithResultAsync(StopPeriodRpcKey, token, PackStopPeriod());
             if (data == null) return false;
             return data.UnpackStopPeriodResponse();
         }
 
         public async Task<bool> StartAutonomous(CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(StartAutonomousRpcKey, token, PackStartAutonomous());
+            var data = await m_rpc.CallRpcWithResultAsync(StartAutonomousRpcKey, token, PackStartAutonomous());
             if (data == null) return false;
             return data.UnpackStartAutonomousResponse();
         }
 
         public async Task<bool> StartTeleoperated(CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(StartTeleoperatedRpcKey, token, PackStartTeleoperated());
+            var data = await m_rpc.CallRpcWithResultAsync(StartTeleoperatedRpcKey, token, PackStartTeleoperated());
             if (data == null) return false;
             return data.UnpackStartTeleoperatedResponse();
         }
 
         public async Task<bool> SetMatchPeriodTimes(IMatchTimeReport times, CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(SetMatchPeriodTimeRpcKey, token, times.PackMatchTimes());
+            var data = await m_rpc.CallRpcWithResultAsync(SetMatchPeriodTimeRpcKey, token, times.PackMatchTimes());
             if (data == null) return false;
             return data.UnpackMatchTimesResponse();
         }

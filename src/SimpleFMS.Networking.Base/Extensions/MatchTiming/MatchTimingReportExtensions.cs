@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 using SimpleFMS.Base.Enums;
 using SimpleFMS.Base.MatchTiming;
 
@@ -10,20 +11,20 @@ namespace SimpleFMS.Networking.Base.Extensions.MatchTiming
     {
         internal static void AddTimeSpanToReport(this TimeSpan span, List<byte> addTo)
         {
-            byte[] remaining =
+            IList<byte> remaining =
                 BitConverter.GetBytes(IPAddress.HostToNetworkOrder(BitConverter.DoubleToInt64Bits(span.TotalSeconds)));
             addTo.AddRange(remaining);
         }
 
-        internal static TimeSpan GetTimeSpanFromReport(this byte[] data, ref int startIndex)
+        internal static TimeSpan GetTimeSpanFromReport(this IList<byte> data, ref int startIndex)
         {
             double seconds =
-                BitConverter.Int64BitsToDouble(IPAddress.NetworkToHostOrder(BitConverter.ToInt64(data, startIndex)));
+                BitConverter.Int64BitsToDouble(IPAddress.NetworkToHostOrder(BitConverter.ToInt64(data.ToArray(), startIndex)));
             startIndex += 8;
             return TimeSpan.FromSeconds(seconds);
         }
 
-        public static byte[] PackMatchTimingReport(this IMatchStateReport report)
+        public static IList<byte> PackMatchTimingReport(this IMatchStateReport report)
         {
             List<byte> data = new List<byte>();
             data.Add((byte)CustomNetworkTableType.MatchTimingReport);
@@ -35,9 +36,9 @@ namespace SimpleFMS.Networking.Base.Extensions.MatchTiming
             return data.ToArray();
         }
 
-        public static IMatchStateReport GetMatchTimingReport(this byte[] bytes)
+        public static IMatchStateReport GetMatchTimingReport(this IList<byte> bytes)
         {
-            if (bytes.Length < 34)
+            if (bytes.Count < 34)
                 return null;
 
             if (bytes[0] != (byte) CustomNetworkTableType.MatchTimingReport)

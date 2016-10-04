@@ -1,4 +1,5 @@
-﻿using NetworkTables;
+﻿using System.Collections.Generic;
+using NetworkTables;
 using NetworkTables.Independent;
 using NetworkTables.Tables;
 using SimpleFMS.Base.DriverStation;
@@ -45,7 +46,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             }, NotifyFlags.NotifyImmediate | NotifyFlags.NotifyLocal); 
         }
 
-        private byte[] DriverStationUpdateBypassRpcCallback(string name, byte[] bytes)
+        private IList<byte> DriverStationUpdateBypassRpcCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             bool isValid = false;
             bool bypass = false;
@@ -56,7 +57,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackDriverStationUpdateBypassResponse(true);
         }
 
-        private byte[] DriverStationUpdateEStopRpcCallback(string name, byte[] bytes)
+        private IList<byte> DriverStationUpdateEStopRpcCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             bool isValid = false;
             bool eStop = false;
@@ -67,9 +68,9 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackDriverStationUpdateEStopResponse(true);
         }
 
-        private byte[] DriverStationTeamUpdateRpcCallback(string name, byte[] bytes)
+        private IList<byte> DriverStationTeamUpdateRpcCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
-            // Receiving the raw byte[]
+            // Receiving the raw IList<byte>
             int matchNumber = 0;
             MatchType matchType = 0;
             var configurations = bytes.GetDriverStationConfigurations(out matchNumber, out matchType);
@@ -77,7 +78,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackDriverStationSetConfigurationResponse(set);
         }
 
-        private byte[] DriverStationGlobalEStopRpcCallback(string name, byte[] bytes)
+        private IList<byte> DriverStationGlobalEStopRpcCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             bool valid = bytes.GetGlobalDriverStationEStop();
             if (valid)

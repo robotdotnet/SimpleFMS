@@ -66,7 +66,7 @@ namespace SimpleFMS.Networking.Client.NetworkClients
 
         public async Task<bool> UpdateDriverStationEStop(AllianceStation station, bool eStopped, CancellationToken token)
         {
-            byte[] data =
+            var data =
                 await
                     m_rpc.CallRpcWithResultAsync(DriverStationUpdateBypassRpcKey, token,
                         station.PackDriverStationSetEStop(eStopped));
@@ -76,7 +76,7 @@ namespace SimpleFMS.Networking.Client.NetworkClients
 
         public async Task<bool> UpdateDriverStationBypass(AllianceStation station, bool bypass, CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationUpdateBypassRpcKey, token,
+            var data = await m_rpc.CallRpcWithResultAsync(DriverStationUpdateBypassRpcKey, token,
                 station.PackDriverStationSetBypass(bypass));
             if (data == null) return false;
             return data.UnpackDriverStationUpdateBypassResponse();
@@ -86,7 +86,7 @@ namespace SimpleFMS.Networking.Client.NetworkClients
             IReadOnlyList<IDriverStationConfiguration> configuration, int matchNumber, MatchType matchType, 
             CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationSetConfigurationRpcKey,token,
+            var data = await m_rpc.CallRpcWithResultAsync(DriverStationSetConfigurationRpcKey,token,
                 configuration.PackDriverStationConfigurationData(matchNumber, matchType));
             if (data == null) return false;
             return data.UnpackDriverStationSetConfigurationResponse();
@@ -94,7 +94,7 @@ namespace SimpleFMS.Networking.Client.NetworkClients
 
         public async Task<bool> GlobalEStop(CancellationToken token)
         {
-            byte[] data = await m_rpc.CallRpcWithResultAsync(DriverStationGlobalEStopRpcKey, token,
+            var data = await m_rpc.CallRpcWithResultAsync(DriverStationGlobalEStopRpcKey, token,
                 DriverStationEStopExtensions.PackDriverStationGlobalEStop());
             if (data == null) return false;
             return data.UnpackDriverStationGlobalEStopResponse();

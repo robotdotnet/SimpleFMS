@@ -1,10 +1,11 @@
 ﻿using SimpleFMS.Base.DriverStation;
+using System.Collections.Generic;
 
 namespace SimpleFMS.Networking.Base.Extensions.DriverStation
 {
     public static class DriverStationBypassExtensions
     {
-        public static byte[] PackDriverStationSetBypass(this AllianceStation station, bool bypass)
+        public static IList<byte> PackDriverStationSetBypass(this AllianceStation station, bool bypass)
         {
             byte[] data = new byte[3];
             data[0] = (byte) CustomNetworkTableType.DriverStationUpdateBypass;
@@ -13,12 +14,12 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
             return data;
         }
 
-        public static AllianceStation GetDriverStationToBypass(this byte[] value, out bool bypass, out bool isValid)
+        public static AllianceStation GetDriverStationToBypass(this IList<byte> value, out bool bypass, out bool isValid)
         {
             bypass = false;
             isValid = false;
 
-            if (value.Length < 3)
+            if (value.Count < 3)
                 return new AllianceStation();
 
             if (value[0] != (byte) CustomNetworkTableType.DriverStationUpdateBypass) return new AllianceStation();
@@ -28,14 +29,14 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
             return station;
         }
 
-        public static byte[] PackDriverStationUpdateBypassResponse(bool set)
+        public static IList<byte> PackDriverStationUpdateBypassResponse(bool set)
         {
             return new[] { (byte)CustomNetworkTableType.DriverStationUpdateBypass, (byte)(set ? 1 : 0) };
         }
 
-        public static bool UnpackDriverStationUpdateBypassResponse(this byte[] value)
+        public static bool UnpackDriverStationUpdateBypassResponse(this IList<byte> value)
         {
-            if (value.Length < 2)
+            if (value.Count < 2)
                 return false;
             if (value[0] != (byte) CustomNetworkTableType.DriverStationUpdateBypass)
                 return false;

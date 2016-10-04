@@ -1,4 +1,5 @@
-﻿using NetworkTables;
+﻿using System.Collections.Generic;
+using NetworkTables;
 using NetworkTables.Independent;
 using NetworkTables.Tables;
 using SimpleFMS.Base.MatchTiming;
@@ -35,7 +36,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
                 new RpcDefinition(SetMatchPeriodTimeRpcVersion, SetMatchPeriodTimeRpcKey), SetMatchPeriodTimeCallback);
         }
 
-        private byte[] StartMatchCallback(string name, byte[] bytes)
+        private IList<byte> StartMatchCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             var good = bytes.UnpackStartMatch();
             bool started = false;
@@ -44,14 +45,14 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackStartMatchResponse(started);
         }
 
-        private byte[] StopPeriodCallback(string name, byte[] bytes)
+        private IList<byte> StopPeriodCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             var good = bytes.UnpackStopPeriod();
             if (good) m_matchTimingManager.StopCurrentPeriod();
             return PackStopPeriodResponse(good);
         }
 
-        private byte[] StartAutonomousCallback(string name, byte[] bytes)
+        private IList<byte> StartAutonomousCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             var good = bytes.UnpackStartAutonomous();
             bool started = false;
@@ -60,7 +61,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackStartAutonomousResponse(started);
         }
 
-        private byte[] StartTeleoperatedCallback(string name, byte[] bytes)
+        private IList<byte> StartTeleoperatedCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             var good = bytes.UnpackStartTeleoperated();
             bool started = false;
@@ -69,7 +70,7 @@ namespace SimpleFMS.Networking.Server.NetworkTableUpdaters
             return PackStartTeleoperatedResponse(started);
         }
 
-        private byte[] SetMatchPeriodTimeCallback(string name, byte[] bytes)
+        private IList<byte> SetMatchPeriodTimeCallback(string name, IList<byte> bytes, ConnectionInfo connInfo)
         {
             var data = bytes.UnpackMatchTimes();
             bool success = false;

@@ -1,24 +1,25 @@
 ﻿using SimpleFMS.Base.DriverStation;
+using System.Collections.Generic;
 
 namespace SimpleFMS.Networking.Base.Extensions.DriverStation
 {
     public static class DriverStationEStopExtensions
     {
-        public static byte[] PackDriverStationSetEStop(this AllianceStation station, bool eStop)
+        public static IList<byte> PackDriverStationSetEStop(this AllianceStation station, bool eStop)
         {
-            byte[] data = new byte[3];
+            IList<byte> data = new byte[3];
             data[0] = (byte)CustomNetworkTableType.DriverStationUpdateEStop;
             data[1] = station.GetByte();
             data[2] = (byte)(eStop ? 1 : 0);
             return data;
         }
 
-        public static AllianceStation GetDriverStationToEStop(this byte[] value, out bool eStop, out bool isValid)
+        public static AllianceStation GetDriverStationToEStop(this IList<byte> value, out bool eStop, out bool isValid)
         {
             eStop = false;
             isValid = false;
 
-            if (value.Length < 3)
+            if (value.Count < 3)
                return new AllianceStation();
 
             if (value[0] != (byte)CustomNetworkTableType.DriverStationUpdateEStop) return new AllianceStation();
@@ -28,14 +29,14 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
             return station;
         }
 
-        public static byte[] PackDriverStationUpdateEStopResponse(bool set)
+        public static IList<byte> PackDriverStationUpdateEStopResponse(bool set)
         {
             return new[] { (byte)CustomNetworkTableType.DriverStationUpdateEStop, (byte)(set ? 1 : 0) };
         }
 
-        public static bool UnpackDriverStationUpdateEStopResponse(this byte[] value)
+        public static bool UnpackDriverStationUpdateEStopResponse(this IList<byte> value)
         {
-            if (value.Length < 2)
+            if (value.Count < 2)
                 return false;
             if (value[0] != (byte)CustomNetworkTableType.DriverStationUpdateEStop)
                 return false;
@@ -43,30 +44,30 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
         }
 
 
-        public static byte[] PackDriverStationGlobalEStop()
+        public static IList<byte> PackDriverStationGlobalEStop()
         {
-            byte[] data = new byte[1];
+            IList<byte> data = new byte[1];
             data[0] = (byte)CustomNetworkTableType.DriverStationGlobalEStop;
             return data;
         }
 
-        public static bool GetGlobalDriverStationEStop(this byte[] value)
+        public static bool GetGlobalDriverStationEStop(this IList<byte> value)
         { 
-            if (value.Length < 1)
+            if (value.Count < 1)
                 return false;
 
             if (value[0] != (byte)CustomNetworkTableType.DriverStationGlobalEStop) return false;
             return true;
         }
 
-        public static byte[] PackDriverStationGlobalEStopResponse()
+        public static IList<byte> PackDriverStationGlobalEStopResponse()
         {
             return new[] { (byte)CustomNetworkTableType.DriverStationGlobalEStop};
         }
 
-        public static bool UnpackDriverStationGlobalEStopResponse(this byte[] value)
+        public static bool UnpackDriverStationGlobalEStopResponse(this IList<byte> value)
         {
-            if (value.Length < 1)
+            if (value.Count < 1)
                 return false;
             if (value[0] != (byte)CustomNetworkTableType.DriverStationGlobalEStop)
                 return false;

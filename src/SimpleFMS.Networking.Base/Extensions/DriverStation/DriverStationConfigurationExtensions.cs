@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NetworkTables.Wire;
 using SimpleFMS.Base.DriverStation;
 using SimpleFMS.Base.Enums;
@@ -11,21 +12,21 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
     {
         private const int DriverStationConfigurationSize = 4;
 
-        public static byte[] PackDriverStationSetConfigurationResponse(bool set)
+        public static IList<byte> PackDriverStationSetConfigurationResponse(bool set)
         {
             return new [] {(byte) CustomNetworkTableType.DriverStationConfiguration, (byte) (set ? 1 : 0)};
         }
 
-        public static bool UnpackDriverStationSetConfigurationResponse(this byte[] value)
+        public static bool UnpackDriverStationSetConfigurationResponse(this IList<byte> value)
         {
-            if (value.Length < 2)
+            if (value.Count < 2)
                 return false;
             if (value[0] != (byte)CustomNetworkTableType.DriverStationConfiguration)
                 return false;
             return value[1] != 0;
         }
 
-        public static byte[] PackDriverStationConfigurationData(
+        public static IList<byte> PackDriverStationConfigurationData(
             this IReadOnlyList<IDriverStationConfiguration> configurations, int matchNumber, MatchType matchType)
         {
             if (configurations.Count > 6)
@@ -57,16 +58,16 @@ namespace SimpleFMS.Networking.Base.Extensions.DriverStation
             encoder.Write8((byte)(configuration.IsBypassed ? 1 : 0));
         }
 
-        public static IReadOnlyList<IDriverStationConfiguration> GetDriverStationConfigurations(this byte[] value, 
+        public static IReadOnlyList<IDriverStationConfiguration> GetDriverStationConfigurations(this IList<byte> value, 
             out int matchNumber, out MatchType matchType)
         {
             matchNumber = 0;
             matchType = 0;
 
-            if (value.Length < 5)
+            if (value.Count < 5)
                 return null;
 
-            MemoryStream stream = new MemoryStream(value);
+            MemoryStream stream = new MemoryStream(value.ToArray());
 
             WireDecoder decoder = new WireDecoder(stream, NetworkingConstants.NetworkTablesVersion);
 
